@@ -133,17 +133,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 void RerunSelf()
 {
-	CloseHandle(Mutex);
-	TCHAR* filename = (TCHAR*)malloc(sizeof(TCHAR)*MAX_PATH+1);
-	HMODULE program = GetModuleHandle(NULL);
-	if (GetModuleFileName(program, filename, MAX_PATH) != 0)
-	{
-		STARTUPINFO cif;
-		ZeroMemory(&cif, sizeof(STARTUPINFO));
-		PROCESS_INFORMATION pi;
-		CreateProcess(filename, NULL, NULL, false, NORMAL_PRIORITY_CLASS, NULL, NULL, NULL, &cif, &pi);
-		ExitProcess(0);
-	}
+	TCHAR* filename = L"C:\\Users\\Valentin\\Documents\\Visual Studio 2013\\Projects\\Task 1\\Debug\\Task1Helper.exe";
+	STARTUPINFO cif;
+	ZeroMemory(&cif, sizeof(STARTUPINFO));
+	PROCESS_INFORMATION pi;
+	TCHAR* params = (TCHAR*)malloc(10*sizeof(TCHAR));
+	_stprintf(params, L"%d", GetCurrentProcessId());
+	CreateProcess(filename, params, NULL, false, NORMAL_PRIORITY_CLASS, NULL, NULL, NULL, &cif, &pi);
+	Sleep(1000);
+	PostQuitMessage(0);
+
 }
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
